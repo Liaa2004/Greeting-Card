@@ -1,0 +1,102 @@
+*{ 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Roboto Condensed', sans-serif; 
+} 
+
+
+.navbar-nav{
+    margin-right: 0;
+    padding-right: 100px;
+}
+.navbar{
+    background-color: rgb(3, 3, 155);
+    color: white;
+}
+.nav-item a{ 
+    color: white; 
+} 
+  
+.nav-item{ 
+    padding-left: 10px; 
+} 
+.navbar-brand{ 
+    color: white ; 
+    padding-left: 100px; 
+} 
+  
+#navbar button{ 
+    color: white; 
+} 
+#banner-container{ 
+    background-color: #0a193d; 
+    color: white !important; 
+    padding-top: 60px; 
+    padding-bottom: 60px; 
+      
+} 
+  
+#banner-row img{ 
+    max-width: 70%; 
+    height: auto; 
+    display: block; 
+    padding-left: 30px; 
+} 
+  
+#banner-row h3, p{ 
+    padding-left: 20px; 
+    padding-top: 20px; 
+    text-align: center; 
+} 
+  
+#banner-row a{ 
+    background-color: white !important; 
+    color: black !important; 
+    border: none; 
+    margin-left: 20px; 
+    margin-top: 20px; 
+      
+} 
+.banner-text {
+    color: #f7f3f2;
+    font-weight: bold;
+    font-size: 40px;
+    font-style: italic;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.banner-sub {
+    color: #efefee;
+    font-weight: bold;
+    font-size: 24px;
+    font-style: italic;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#banner-col{ 
+    padding-left: 20px; 
+} 
+/* service */
+
+  
+/* footer */
+  
+.mb-3{ 
+  padding-top: 10px; 
+} 
+  
+/* media */
+@media only screen and (max-width: 987px){ 
+    .navbar-brand{ 
+        padding-left: 0px; 
+    } 
+} 
+  
+@media only screen and (max-width: 768px){ 
+    #banner-row img{ 
+        padding-top: 20px; 
+    } 
+  
+   .social-col{ 
+       width: 33%; 
+   } 
+  
+}

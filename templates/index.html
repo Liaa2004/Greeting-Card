@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" rel="stylesheet"/>
+    <link href="static/css/style.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet"/>
+    <title>Greeting Card</title>
+    <style>
+        .card-preview {
+            position: relative; /* Allow absolute positioning of text boxes */
+            height: 350px; /* Set fixed height for the card preview */
+            overflow: hidden; /* Hide overflow to keep text boxes within bounds */
+            border: 1px solid black;
+        }
+        .card-text {
+            position: absolute; /* Allow positioning within the card preview */
+            padding: 5px; /* Add padding for better appearance */
+            border: 1px dashed rgba(255, 255, 255, 0.5); /* Optional: Add border for visibility */
+            cursor: move; /* Change cursor to indicate draggable text boxes */
+            font-size: 24px; /* Set default font size */
+        }
+    </style>   
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Greeting Card Generator</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Generate">Generate</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#footer">About Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="banner" style="background-image: url('static/images/banner.jpg'); background-size: cover; background-position: center; height: 100vh;">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-md-6">
+                    <h1 class="banner-text">Create a Custom Greeting Card</h1>
+                    <p class="banner-sub">Design your card with custom templates, fonts, and colors!</p>
+                    <a class="btn btn-primary" href="#Generate" role="button">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="Generate">
+        <h1 class="text-center">Generate Your Custom Card</h1>
+        <section class="container mt-5">
+            <form id="card-form" action="/create_card" method="POST" onsubmit="updateFormValues()">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Form Section -->
+                        <div class="mb-3">
+                            <label for="text" class="form-label">Enter Text</label>
+                            <input type="text" id="text" name="text" class="form-control" required oninput="updateText()">
+                        </div>
+                        <!-- Font selection -->
+                        <div class="mb-3">
+                            <label for="font" class="form-label">Choose Font</label>
+                            <select id="font" name="font" class="form-select" required onchange="updateText()">
+                                <option value="Arial" style="font-family: Arial;">Arial</option>
+                                <option value="Helvetica" style="font-family: Helvetica;">Helvetica</option>
+                                <option value="Times New Roman" style="font-family: 'Times New Roman';">Times New Roman</option>
+                            </select>
+                        </div>
+                        <!-- Color selection -->
+                        <div class="mb-3">
+                            <label for="color" class="form-label">Choose Color</label>
+                            <select id="color" name="color" class="form-select" required onchange="updateText()">
+                                <option value="black">Black</option>
+                                <option value="red">Red</option>
+                                <option value="green">Green</option>
+                                <option value="blue">Blue</option>
+                            </select>
+                        </div>
+                        <!-- Template selection -->
+                        <div class="mb-3">
+                            <label for="template" class="form-label">Choose Template</label>
+                            <select id="template" name="template" class="form-select" required onchange="updateTemplatePreview()">
+                                <option value="template1.jpg">Template 1</option>
+                                <option value="template2.jpg">Template 2</option>
+                                <option value="template3.jpg">Template 3</option>
+                            </select>
+                        </div>
+                        <!-- Add Textbox Button -->
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-secondary" id="add-textbox" onclick="addTextBox()">Add Textbox</button>
+                        </div>
+                        <!-- Font Size Slider -->
+                        <div class="mb-3">
+                            <label for="font-size" class="form-label">Font Size</label>
+                            <input type="range" id="font-size" name="font-size" min="12" max="48" value="24" onchange="updateFontSize()">
+                            <span id="font-size-value">24</span>
+                        </div>
+                        <!-- Submit button -->
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Create Card</button>
+                        </div>
+                    </div>
+                    <!-- Card Preview Section -->
+                    <div class="col-md-6">
+                        <h3>Card Preview:</h3>
+                        <div class="card-preview" id="card-preview">
+                            <img id="template-preview" src="static/templates/template1.jpg" class="card-img-top" alt="Template Preview">
+                        </div>
+                    </div>
+                </div>
+                <!-- Hidden field to store textbox data -->
+                <input type="hidden" id="textbox-data" name="textbox_data">
+            </form>
+        </section>
+    </section>
+    
+    <section id="footer"> 
+        <section id="banner"> 
+          <div class="container-fluid" id="banner-container"> 
+            <div class="row" id="banner-row"> 
+              <div class="col-md-4" id="footer-col1"> 
+                <h3>About Us</h3> 
+                <p>We provide a platform to create custom greeting cards for every occasion. Join us in spreading joy and creativity!</p>
+              </div> 
+            </div> 
+          </div> 
+        </section> 
+    </section>
+    
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS (already present) -->
+    <script>
+        let textBoxCounter = 0;
+    
+        function updateTemplatePreview() {
+            const selectedTemplate = document.getElementById('template').value;
+            document.getElementById('template-preview').src = 'static/templates/' + selectedTemplate;
+        }
+    
+        function updateText() {
+            const inputText = document.getElementById('text').value;
+            const textBoxes = document.querySelectorAll('.card-text');
+            textBoxes.forEach((box) => {
+                box.innerText = inputText;
+                box.style.fontFamily = document.getElementById('font').value;
+                box.style.color = document.getElementById('color').value;
+            });
+        }
+    
+        function addTextBox() {
+            const cardPreview = document.getElementById('card-preview');
+            const newTextBox = document.createElement('div');
+            newTextBox.classList.add('card-text');
+            newTextBox.setAttribute('id', 'text-box-' + textBoxCounter);
+            newTextBox.innerText = document.getElementById('text').value || "New Text";
+            newTextBox.style.fontFamily = document.getElementById('font').value;
+            newTextBox.style.color = document.getElementById('color').value;
+            newTextBox.style.left = '50px';
+            newTextBox.style.top = '50px';
+            newTextBox.style.fontSize = document.getElementById('font-size').value + 'px';
+    
+            newTextBox.addEventListener('mousedown', startDrag);
+            cardPreview.appendChild(newTextBox);
+            textBoxCounter++;
+        }
+    
+        function updateFontSize() {
+            const fontSize = document.getElementById('font-size').value;
+            document.getElementById('font-size-value').innerText = fontSize;
+            const textBoxes = document.querySelectorAll('.card-text');
+            textBoxes.forEach((box) => {
+                box.style.fontSize = fontSize + 'px';
+            });
+        }
+    
+        let offsetX, offsetY;
+    
+        function startDrag(e) {
+            const textBox = e.target;
+            offsetX = e.clientX - textBox.getBoundingClientRect().left;
+            offsetY = e.clientY - textBox.getBoundingClientRect().top;
+    
+            function dragMove(e) {
+                const rect = document.getElementById('card-preview').getBoundingClientRect();
+                textBox.style.left =                 (e.clientX - rect.left - offsetX) + 'px';
+            textBox.style.top = (e.clientY - rect.top - offsetY) + 'px';
+        }
+
+        function dragEnd() {
+            document.removeEventListener('mousemove', dragMove);
+            document.removeEventListener('mouseup', dragEnd);
+        }
+
+        document.addEventListener('mousemove', dragMove);
+        document.addEventListener('mouseup', dragEnd);
+    }
+
+    function updateFormValues() {
+        const textBoxes = document.querySelectorAll('.card-text');
+        let textboxData = [];
+
+        textBoxes.forEach(box => {
+            const textBoxInfo = {
+                text: box.innerText,
+                fontFamily: box.style.fontFamily,
+                color: box.style.color,
+                left: box.style.left,
+                top: box.style.top,
+                fontSize: box.style.fontSize
+            };
+            textboxData.push(textBoxInfo);
+        });
+
+        document.getElementById('textbox-data').value = JSON.stringify(textboxData);
+    }
+</script>
+</body>
+</html>
